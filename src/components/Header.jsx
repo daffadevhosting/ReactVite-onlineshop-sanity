@@ -1,10 +1,37 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import { FaShoppingCart } from "react-icons/fa";
+import React, { useEffect, useState } from 'react';
+import {Link, NavLink} from 'react-router-dom';
+import { FaShoppingCart, FaBars, FaRegTimesCircle } from "react-icons/fa";
 
 const Logo = 'ReactVite'
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [size, setSize] = useState({
+    width: 0,
+    height: 0,
+  });
+  useEffect(() => {
+    const handleResize = () => {
+      setSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (size.width > 768 && menuOpen) {
+      setMenuOpen(false);
+    }
+  }, [size.width, menuOpen]);
+
+  const menuToggleHandler = () => {
+    setMenuOpen((p) => !p);
+  };
+
 	return (
 			<div className="innerHeader">
 				<div className="leftSide">
@@ -13,19 +40,38 @@ export default function Header() {
 				</Link>
 				</div>
 				<div className="rightSide">
-			        <nav>
+		          <div className="menuBtn">
+		          {!menuOpen ? (
+		            <FaBars size={24} onClick={menuToggleHandler} />
+		          ) : (
+		            <FaRegTimesCircle size={24} color={'#fff'} onClick={menuToggleHandler} />
+		          )}
+		          </div>
+			        <nav className={`${"nav"} ${menuOpen && size.width < 768 ? `${"isMenu"}` : ""}`}>
 			          <ul>
 			            <li>
-			              <Link to="/">Home</Link>
+			              <NavLink to="/"
+			              style={isActive => ({
+			    color: isActive ? "#fff" : "#fcd933"
+			  })} onClick={() => setMenuOpen(false)}>Home</NavLink>
 			            </li>
 			            <li>
-			              <Link to="/products">Products</Link>
+			              <NavLink to="/products"
+			  				style={isActive => ({
+			    color: isActive ? "#fff" : "#fcd933"
+			  })} onClick={() => setMenuOpen(false)}>Products</NavLink>
 			            </li>
 			            <li>
-			              <Link to="/contact">Contact</Link>
+			              <NavLink to="/contact"
+			  				style={isActive => ({
+			    color: isActive ? "#fff" : "#fcd933"
+			  })} onClick={() => setMenuOpen(false)}>Contact</NavLink>
 			            </li>
 			            <li>
-			            	<Link to="/"><FaShoppingCart/></Link>
+			            	<NavLink to="/"
+			  				style={isActive => ({
+			    color: isActive ? "#fff" : "#fcd933"
+			  })} onClick={() => setMenuOpen(false)}><FaShoppingCart/></NavLink>
 			            </li>
 			          </ul>
 			        </nav>
