@@ -1,0 +1,34 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+package-lock.json
+module.js
+3rdperson.js
+scroll.js
+
+glsl
+_styling-css
+node_modules
+dist
+dist-ssr
+*.local
+.env.local
+build.lib.js
+bundle.js
+_index.html.bak
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
